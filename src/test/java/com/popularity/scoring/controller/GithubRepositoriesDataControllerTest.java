@@ -36,7 +36,6 @@ public class GithubRepositoriesDataControllerTest {
 
     @Test
     public void testCalculateGithubRepositoryScore_ValidRequest_Returns200() throws Exception {
-        // given
         String language = "Java";
         LocalDate earliestDate = LocalDate.now().minusDays(10);
         int pageNumber = 1;
@@ -44,7 +43,6 @@ public class GithubRepositoriesDataControllerTest {
         Mockito.when(scoreCalculatorService.fetchAndScoreRepositories(language, earliestDate, pageNumber))
                 .thenReturn(new GithubPopularityScoreResponse());
 
-        // When & Then
         mockMvc.perform(get("/api/v1/calculateGithubRepositoryPopularityScore")
                         .param("language", language)
                         .param("earliestDate", earliestDate.toString())
@@ -55,11 +53,9 @@ public class GithubRepositoriesDataControllerTest {
 
     @Test
     public void testCalculateGithubRepositoryScore_MissingLanguage_Returns400() throws Exception {
-        // Given
         LocalDate earliestDate = LocalDate.now().minusDays(10);
         int pageNumber = 1;
 
-        // When & Then
         mockMvc.perform(get("/api/v1/calculateGithubRepositoryPopularityScore")
                         .param("earliestDate", earliestDate.toString())
                         .param("pageNumber", String.valueOf(pageNumber))
@@ -69,12 +65,10 @@ public class GithubRepositoriesDataControllerTest {
 
     @Test
     public void testCalculateGithubRepositoryScore_InvalidEarliestDate_Returns400() throws Exception {
-        // Given
         String language = "Java";
         LocalDate earliestDate = LocalDate.now().plusDays(10); // Future date
         int pageNumber = 1;
 
-        // When & Then
         mockMvc.perform(get("/api/v1/calculateGithubRepositoryPopularityScore")
                         .param("language", language)
                         .param("earliestDate", earliestDate.toString())
@@ -85,11 +79,9 @@ public class GithubRepositoriesDataControllerTest {
 
     @Test
     public void testCalculateGithubRepositoryScore_MissingEarliestDate_Returns400() throws Exception {
-        // Given
         String language = "Java";
         int pageNumber = 1;
 
-        // When & Then
         mockMvc.perform(get("/api/v1/calculateGithubRepositoryPopularityScore")
                         .param("language", language)
                         .param("pageNumber", String.valueOf(pageNumber))

@@ -27,7 +27,6 @@ public class ScoringUtilTest {
 
     @BeforeEach
     void setup() {
-        // Mock repositories
         repository1 = new RepositoriesPopularityScoreDTO("repo1", 100, 50, LocalDateTime.now().minusDays(5), LocalDateTime.now().minusDays(30), 0);
         repository2 = new RepositoriesPopularityScoreDTO("repo2", 100, 50, LocalDateTime.now().minusDays(5), LocalDateTime.now().minusDays(30), 0);
         repository3 = new RepositoriesPopularityScoreDTO("repo3", 100, 50, null, LocalDateTime.now().minusDays(30), 0);
@@ -37,13 +36,10 @@ public class ScoringUtilTest {
 
     @Test
     void shouldCalculateScoresForValidRepositories() {
-        // Arrange
         GithubPopularityScoreResponse response = new GithubPopularityScoreResponse(3, Arrays.asList(repository1, repository2, repository3));
 
-        // Act
         GithubPopularityScoreResponse result = scoringUtil.calculatePopularityScores(response);
 
-        // Assert
         assertThat(result).isNotNull();
         assertThat(result.getRepositoriesPopularityScoreDTO()).hasSize(3);
         assertThat(repository1.getPopularityScore()).isEqualTo(154.77650730540356);
@@ -53,40 +49,31 @@ public class ScoringUtilTest {
 
     @Test
     void shouldReturnEmptyResponseForEmptyRepositoryList() {
-        // Arrange
         GithubPopularityScoreResponse response = new GithubPopularityScoreResponse(0, Collections.emptyList());
 
-        // Act
         GithubPopularityScoreResponse result = scoringUtil.calculatePopularityScores(response);
 
-        // Assert
         assertThat(result).isNotNull();
         assertThat(result.getRepositoriesPopularityScoreDTO()).isEmpty();
     }
 
     @Test
     void shouldHandleNullRepositoryList() {
-        // Arrange
         GithubPopularityScoreResponse response = new GithubPopularityScoreResponse(0, null);
 
-        // Act
         GithubPopularityScoreResponse result = scoringUtil.calculatePopularityScores(response);
 
-        // Assert
         assertThat(result).isNotNull();
         assertThat(result.getRepositoriesPopularityScoreDTO()).isEmpty();
     }
 
     @Test
     void shouldAssignMinScoreForRepositoriesWithoutLastUpdatedDate() {
-        // Arrange
         repository3.setLastUpdated(null); // Set lastUpdated to null
         GithubPopularityScoreResponse response = new GithubPopularityScoreResponse(1, Collections.singletonList(repository3));
 
-        // Act
         GithubPopularityScoreResponse result = scoringUtil.calculatePopularityScores(response);
 
-        // Assert
         assertThat(result).isNotNull();
         assertThat(repository3.getPopularityScore()).isEqualTo(0.0); // Minimum score expected
     }

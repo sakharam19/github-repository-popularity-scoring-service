@@ -8,7 +8,6 @@ This is a Spring Boot-based microservice that calculates the popularity score of
 - [Prerequisites](#prerequisites)
 - [Building and Running the Application](#building-and-running-the-application)
 - [Accessing the API](#accessing-the-api)
-- [Improvements](#improvements)
 
 ## Features
 
@@ -34,7 +33,7 @@ The popularity score for a repository is calculated based on the following facto
 
 Before running the application, ensure you have the following installed:
 
-- Java 17 or later.
+- Java 21 or later.
 - Maven or Gradle (for building the project).
 
 ## Building and Running the Application
